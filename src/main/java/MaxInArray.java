@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class MaxInArray {
-    public static void main(String[] args) throws Exception{
+    public static void game() throws Exception{
         BufferedReader cs = new BufferedReader(new InputStreamReader(System.in)); //Создаём bufferedReader для считывания строк
         System.out.println("Array length: "); //выводим текст для пользователя
         int x = Integer.parseInt(cs.readLine()); //вызываем bufferedReader, преобразуем к типу int и заносим в переменную введённое значение

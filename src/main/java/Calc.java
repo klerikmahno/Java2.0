@@ -11,8 +11,10 @@
 import java.io.BufferedReader; //импорт BufferedReader
 import java.io.InputStreamReader; //импорт InputStreamReader
 
-public class calc {
-    public static void main(String[] args) throws Exception {
+public class Calc {
+
+    public static void game()throws Exception{
+
         BufferedReader cs = new BufferedReader(new InputStreamReader(System.in)); //Создаём bufferedReader для считывания строк
         System.out.println("Enter the first number:"); //выводим текст для пользователя
         double a = Double.parseDouble(cs.readLine()); //вызываем bufferedReader, преобразуем к типу double и заносим в переменную введённое значение
