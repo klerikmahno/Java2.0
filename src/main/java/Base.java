@@ -1,5 +1,6 @@
 /**
  * This is our first Java class
+ * @author Pavlenko Sergey
  */
 
 public class Base {
