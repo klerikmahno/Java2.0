@@ -19,19 +19,13 @@ public class Education {
         Student st2 = new Student("Владимир",new Manager());
         Student st3 = new Student("Юлианна",new Doctor());
         //короткие отчёты по студентам
-        //shortReport(st1);
-        //shortReport(st1);
-        /*shortReport(st3);
+        shortReport(st1);
+        shortReport(st2);
+        shortReport(st3);
         //развернутые отчёты по студентам
         longReport(st1);
         longReport(st2);
-        longReport(st1);*/
-        System.out.println("Дата начала программы обучения: "+ st1.prog.startDate.get(Calendar.DAY_OF_MONTH)+"/"+ st1.prog.startDate.get(Calendar.MONTH)+"/"+ st1.prog.startDate.get(Calendar.YEAR));
-        st1.prog.dateCheck();
-        System.out.println("Дата начала программы обучения: "+ st1.prog.startDate.get(Calendar.DAY_OF_MONTH)+"/"+ st1.prog.startDate.get(Calendar.MONTH)+"/"+ st1.prog.startDate.get(Calendar.YEAR));
-        st1.prog.dateCheck();
-        System.out.println("Дата начала программы обучения: "+ st1.prog.startDate.get(Calendar.DAY_OF_MONTH)+"/"+ st1.prog.startDate.get(Calendar.MONTH)+"/"+ st1.prog.startDate.get(Calendar.YEAR));
-
+        longReport(st1);
     }
 
     public static void shortReport(Student st){ //метод короткого отчёта
@@ -55,7 +49,7 @@ public class Education {
         }
     }
 
-    public static abstract class Program{ //абстрактный класс программы обучения
+    public static abstract class Program { //абстрактный класс программы обучения
         String name; //название программы обучения
         Calendar startDate; //дата начала курса, использывал календарь для удобства
         int progDuration; //длительность в часах, как указано в задании
@@ -75,8 +69,7 @@ public class Education {
         public void dateCheck(){ //проверка статуса программы
             if(startDate.before(Calendar.getInstance())) { //сравниваем дату начала курса с сегодняшней датой
                 // если дата в прошлом
-                Calendar c = new GregorianCalendar();//создаём переменную каледарь равную дате начала программы
-
+                Calendar c = (Calendar) startDate.clone();//создаём переменную каледарь из клона даты начала программы и приводим к типу Календарь
                 c.add(Calendar.DAY_OF_MONTH,progDuration); //прибавляем длительность программы в днях
                 if(c.before(Calendar.getInstance())) { //сравниваем дату начала курса+длтельность с сегодняшней датой
                     System.out.println("Программа уже закончилась");
