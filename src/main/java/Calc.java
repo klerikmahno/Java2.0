@@ -22,7 +22,7 @@ public class Calc  {
         this.b = b;
         this.x = x;
     }
-    public Double calculate(){ //метот расчёта
+    public Double calculate() throws SelectNotFoundException{ //метот расчёта
         try{
             if (x.equals("+")) { //проверка на сложение
                 return addition(a, b);
@@ -33,11 +33,11 @@ public class Calc  {
             } else if (x.equals("/")) {
                 return division(a, b); //проверка на деление
             }else{
-                throw new SelectNotFoundException(); //если операция не корректная создаём исключение на этот случай
+                throw new SelectNotFoundException("Selected operation not found"); //если операция не корректная создаём исключение на этот случай
             }
         }catch(SelectNotFoundException e) { //обрабатываем выброшеное исключение
-            System.out.println("Selected operation not found"); //сообщение об ошибке. Думал сделать лог фаил, надо ли?
-            return 0.0; //возвращаем 0
+            System.out.println(e.getMessage());//сообщение об ошибке. Думал сделать лог фаил, надо ли?
+            throw e; //пробрасываем исключение
         }
     }
 
@@ -80,31 +80,26 @@ public class Calc  {
      * @param b second number
      * @return division result (double)
      */
-    private static double division(Double a, Double b){
+    private static double division(Double a, Double b) throws ArithmeticException{
         try {
             //проверяем что Double b не 0.0, для этого делем 1 на него и проверяем, что система не выдаст infinity(+/-)
             if (1.0 / b == Double.POSITIVE_INFINITY ||
                     1.0 / b == Double.NEGATIVE_INFINITY) {
-                throw new ArithmeticException(); //если да, делаем арифмитическое исключение
+                throw new ArithmeticException("Деление на ноль невозможно!"); //если да, делаем арифмитическое исключение
                 // приводим результат к статическому формату ответа и парсим полученную строку в Double(меняя "," на ".")
             }else return Double.parseDouble(df.format(a / b).replace(",",".")); //возвращаем ответ если b !=0.0
         }catch (ArithmeticException e) { //обрабатываем выброшеное исключение
-            //System.out.println("Деление на ноль невозможно!"); //сообщение об ошибке. Думал сделать лог фаил, надо ли?
-            return 0.0; //возвращаем 0
+            System.out.println(e.getMessage()); //сообщение об ошибке. Думал сделать лог фаил, надо ли?
+            throw e; //пробрасываем исключение
         }
 
     }
     //собственное исключение, для проверки операции
     public class SelectNotFoundException extends Exception {
 
-        public SelectNotFoundException () {
-            super();
+        public SelectNotFoundException (String mes) {
+            super(mes);
         }
     }
 
-    public static void main(String[] args) {
-
-        Calc calc = new Calc(10.4,0.0,"/");
-        System.out.println(calc.calculate());
-    }
 }
