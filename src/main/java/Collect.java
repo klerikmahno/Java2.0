@@ -17,13 +17,23 @@ public class Collect {
         FileInputStream fileInputStream = new FileInputStream("src/main/resources/test.txt");
         //создаём BufferedInputStream для считывания в буффер по 200 байт
         BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream, 200);
-
         int i; //переменная для считывания
         String sb = ""; //инициализируем строку для выгрузки в неё содержимого файла
         while((i = bufferedInputStream.read())!= -1){ //считываем пока не вернётся "-1" - конец файла
             sb += (char)i; //приводим значения к символам и кладём в строку sb
         }
-        String[] inputs = sb.split(" "); //создаём массив из слов строки разделённых пробелом (из требований)
+        if(!sb.isEmpty()){ //проверяем что строка не пустая
+            while (true){ //убираем все пробелы вначале файла
+                if(sb.startsWith(" ")){ //если первый символ пробел
+                    sb = sb.substring(1, sb.length()); //перезаписываем строку без первого пробела
+                }else break; //выходим из цикла когда находим первый символ не пробел
+            }
+        }else{
+            System.out.println("Фаил пуст!"); //если фаил пуст выводим сообщение
+            System.exit(-1); //останавливаем программу с статускодом -1
+        }
+        String[] inputs = sb.split(" ");
+
 
         List<String> in = Arrays.asList(inputs); //создаём лист из массива, для сортировки
         Collections.sort(in, String.CASE_INSENSITIVE_ORDER); //сортируем по алфавиту методами интерфейса коллекций
