@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+
 /**
  * Создаём калькулятор
  *
@@ -13,6 +15,7 @@ public class Calc  {
     Double a;
     Double b;
     String x;
+    static DecimalFormat df = new DecimalFormat( "#.####" ); //формат числа 0.0000 как указано в задании
 
     public Calc(Double a,Double b,String x) { //консруктор класса
         this.a = a;
@@ -45,7 +48,8 @@ public class Calc  {
      * @return addition result (double)
      */
     private static double addition(Double a, Double b) {
-        return a + b;
+        //приводим результат к статическому формату ответа и парсим полученную строку в Double(меняя "," на ".")
+        return Double.parseDouble(df.format(a + b).replace(",","."));
     }
 
     /**
@@ -55,7 +59,8 @@ public class Calc  {
      * @return subtraction result (double)
      */
     private static double subtraction(Double a, Double b) {
-        return a - b;
+        //приводим результат к статическому формату ответа и парсим полученную строку в Double(меняя "," на ".")
+        return Double.parseDouble(df.format(a - b).replace(",","."));
     }
 
     /**
@@ -65,7 +70,8 @@ public class Calc  {
      * @return multiplication result (double)
      */
     private static double multiplication(Double a, Double b) {
-        return a * b;
+        //приводим результат к статическому формату ответа и парсим полученную строку в Double(меняя "," на ".")
+        return Double.parseDouble(df.format(a * b).replace(",","."));
     }
 
     /**
@@ -80,10 +86,10 @@ public class Calc  {
             if (1.0 / b == Double.POSITIVE_INFINITY ||
                     1.0 / b == Double.NEGATIVE_INFINITY) {
                 throw new ArithmeticException(); //если да, делаем арифмитическое исключение
-
-            }else return a/b; //возвращаем ответ если b !=0.0
+                // приводим результат к статическому формату ответа и парсим полученную строку в Double(меняя "," на ".")
+            }else return Double.parseDouble(df.format(a / b).replace(",",".")); //возвращаем ответ если b !=0.0
         }catch (ArithmeticException e) { //обрабатываем выброшеное исключение
-            System.out.println("Деление на ноль невозможно!"); //сообщение об ошибке. Думал сделать лог фаил, надо ли?
+            //System.out.println("Деление на ноль невозможно!"); //сообщение об ошибке. Думал сделать лог фаил, надо ли?
             return 0.0; //возвращаем 0
         }
 
@@ -96,4 +102,9 @@ public class Calc  {
         }
     }
 
+    public static void main(String[] args) {
+
+        Calc calc = new Calc(10.4,0.0,"/");
+        System.out.println(calc.calculate());
+    }
 }
