@@ -2,42 +2,40 @@
  * Создаём калькулятор
  *
  * @author Pavlenko Sergey
- * @see #addition(double a, double b)
- * @see #subtraction(double a, double b)
- * @see #multiplication(double a, double b)
- * @see #division(double a, double b)
+ * @see #addition(Double a, Double b)
+ * @see #subtraction(Double a, Double b)
+ * @see #multiplication(Double a, Double b)
+ * @see #division(Double a, Double b)
+ * @see SelectNotFoundException
  */
 
-import java.io.BufferedReader; //импорт BufferedReader
-import java.io.InputStreamReader; //импорт InputStreamReader
+public class Calc  {
+    Double a;
+    Double b;
+    String x;
 
-public class Calc {
-
-    public static void game()throws Exception{
-
-        BufferedReader cs = new BufferedReader(new InputStreamReader(System.in)); //Создаём bufferedReader для считывания строк
-        System.out.println("Enter the first number:"); //выводим текст для пользователя
-        double a = Double.parseDouble(cs.readLine()); //вызываем bufferedReader, преобразуем к типу double и заносим в переменную введённое значение
-        System.out.println("Enter the second number:"); //выводим текст для пользователя
-        double b = Double.parseDouble(cs.readLine()); //вызываем bufferedReader, преобразуем к типу double и заносим в переменную введённое значение
-        System.out.println("Select operation( + / - / * / / ):"); //выводим текст для пользователя с вариантами значений
-        String x = cs.readLine(); //вызываем bufferedReader и заносим в переменную string введённое значение
-        if (x.equals("+")) { //проверка на сложение
-            System.out.print("Result is : "); //выводим текст для пользователя без переноса строки
-            System.out.printf("%.4f", addition(a, b)); //выводим ответ функции сложения в формате 0.0000
-        } else if (x.equals("-")) {
-            System.out.print("Result is : "); //выводим текст для пользователя без переноса строки
-            System.out.printf("%.4f", subtraction(a, b)); //выводим ответ функции вычитания в формате 0.0000
-        } else if (x.equals("*")) {
-            System.out.print("Result is : "); //выводим текст для пользователя без переноса строки
-            System.out.printf("%.4f", multiplication(a, b)); //выводим ответ функции умножения в формате 0.0000
-        } else if (x.equals("/")) {
-            System.out.print("Result is : "); //выводим текст для пользователя без переноса строки
-            System.out.printf("%.4f", division(a, b)); //выводим ответ функции деления в формате 0.0000
-        } else {
-            System.out.println("Selected operation not found"); //выводим текст для пользователя о неверном символе
+    public Calc(Double a,Double b,String x) { //консруктор класса
+        this.a = a;
+        this.b = b;
+        this.x = x;
+    }
+    public Double calculate(){ //метот расчёта
+        try{
+            if (x.equals("+")) { //проверка на сложение
+                return addition(a, b);
+            } else if (x.equals("-")) { //проверка на
+                return subtraction(a, b);
+            } else if (x.equals("*")) { //проверка на вычитание
+                return multiplication(a, b); //проверка на умножение
+            } else if (x.equals("/")) {
+                return division(a, b); //проверка на деление
+            }else{
+                throw new SelectNotFoundException(); //если операция не корректная создаём исключение на этот случай
+            }
+        }catch(SelectNotFoundException e) { //обрабатываем выброшеное исключение
+            System.out.println("Selected operation not found"); //сообщение об ошибке. Думал сделать лог фаил, надо ли?
+            return 0.0; //возвращаем 0
         }
-
     }
 
     /**
@@ -46,7 +44,7 @@ public class Calc {
      * @param b second number
      * @return addition result (double)
      */
-    private static double addition(double a, double b) {
+    private static double addition(Double a, Double b) {
         return a + b;
     }
 
@@ -56,7 +54,7 @@ public class Calc {
      * @param b second number
      * @return subtraction result (double)
      */
-    private static double subtraction(double a, double b) {
+    private static double subtraction(Double a, Double b) {
         return a - b;
     }
 
@@ -66,7 +64,7 @@ public class Calc {
      * @param b second number
      * @return multiplication result (double)
      */
-    private static double multiplication(double a, double b) {
+    private static double multiplication(Double a, Double b) {
         return a * b;
     }
 
@@ -76,8 +74,26 @@ public class Calc {
      * @param b second number
      * @return division result (double)
      */
-    private static double division(double a, double b) {
-        return a / b;
+    private static double division(Double a, Double b){
+        try {
+            //проверяем что Double b не 0.0, для этого делем 1 на него и проверяем, что система не выдаст infinity(+/-)
+            if (1.0 / b == Double.POSITIVE_INFINITY ||
+                    1.0 / b == Double.NEGATIVE_INFINITY) {
+                throw new ArithmeticException(); //если да, делаем арифмитическое исключение
+
+            }else return a/b; //возвращаем ответ если b !=0.0
+        }catch (ArithmeticException e) { //обрабатываем выброшеное исключение
+            System.out.println("Деление на ноль невозможно!"); //сообщение об ошибке. Думал сделать лог фаил, надо ли?
+            return 0.0; //возвращаем 0
+        }
+
+    }
+    //собственное исключение, для проверки операции
+    public class SelectNotFoundException extends Exception {
+
+        public SelectNotFoundException () {
+            super();
+        }
     }
 
 }
