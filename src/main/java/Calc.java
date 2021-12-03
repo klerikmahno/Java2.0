@@ -92,9 +92,6 @@ public class Calc  {
         }
 
     }
-    /*public boolean checkCorrectOperation{
-
-    }*/
 
     //собственное исключение, для проверки операции
     public class SelectNotFoundException extends Exception {
