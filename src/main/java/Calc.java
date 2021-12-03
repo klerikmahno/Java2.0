@@ -22,7 +22,7 @@ public class Calc  {
         this.b = b;
         this.x = x;
     }
-    public Double calculate() throws SelectNotFoundException{ //метот расчёта
+    public Double calculate() throws SelectNotFoundException,ArithmeticException{ //метот расчёта
         try{
             if (x.equals("+")) { //проверка на сложение
                 return addition(a, b);
@@ -35,8 +35,7 @@ public class Calc  {
             }else{
                 throw new SelectNotFoundException("Selected operation not found"); //если операция не корректная создаём исключение на этот случай
             }
-        }catch(SelectNotFoundException e) { //обрабатываем выброшеное исключение
-            System.out.println(e.getMessage());//сообщение об ошибке. Думал сделать лог фаил, надо ли?
+        }catch(Exception e) { //обрабатываем выброшеное исключение
             throw e; //пробрасываем исключение
         }
     }
@@ -89,11 +88,14 @@ public class Calc  {
                 // приводим результат к статическому формату ответа и парсим полученную строку в Double(меняя "," на ".")
             }else return Double.parseDouble(df.format(a / b).replace(",",".")); //возвращаем ответ если b !=0.0
         }catch (ArithmeticException e) { //обрабатываем выброшеное исключение
-            System.out.println(e.getMessage()); //сообщение об ошибке. Думал сделать лог фаил, надо ли?
             throw e; //пробрасываем исключение
         }
 
     }
+    /*public boolean checkCorrectOperation{
+
+    }*/
+
     //собственное исключение, для проверки операции
     public class SelectNotFoundException extends Exception {
 
@@ -101,5 +103,4 @@ public class Calc  {
             super(mes);
         }
     }
-
 }
