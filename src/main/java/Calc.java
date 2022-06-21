@@ -94,7 +94,7 @@ public class Calc  {
     }
 
     //собственное исключение, для проверки операции
-    public class SelectNotFoundException extends Exception {
+    public static class SelectNotFoundException extends Exception {
 
         public SelectNotFoundException (String mes) {
             super(mes);
